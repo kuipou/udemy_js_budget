@@ -11,7 +11,28 @@ UI -- update the UI */
 //Controllers
 // Budget Controler
 var budgetController = (function() {
+    var Expense = function (id, description, value) {
+        this.id =id;
+        this.description = description;
+        this.value = value;
+    };
     
+    var Income = function (id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };
+
+    var data = {
+        allItems {
+            exp:[],
+            inc[]
+        },
+        totals: {
+            exp:0,
+            inc:[]
+        }
+    };
 })();
 
 // UI Controller
@@ -45,19 +66,28 @@ return {
 
 // App controller
 var controller = ( function(budgetCtrl, UICtrl) {
-   var DOM = UICtrl.getDOMstrings(); 
+    var setupEventListeners = function() {
+        var DOM = UICtrl.getDOMstrings(); 
+        document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAdditem);
+        document.addEventListener("keypress", function (event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAdditem();
+            }
+        });
+    };
+   
    var ctrlAdditem = function () {
        var input = UICtrl.getinput();
-       console.log(input);
-   }
-document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAdditem);
-document.addEventListener("keypress", function(event) {
-    if (event.keyCode === 13 || event.which === 13) {
-        ctrlAdditem();
-    }
-});
+   };
+
+   return {
+       init: function() {
+           setupEventListeners();
+       }
+   };
 })(budgetController, UIController);
 
+controller.init();
 // Add event Handler
 
 
